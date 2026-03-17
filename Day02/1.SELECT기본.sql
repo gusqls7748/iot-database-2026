@@ -146,5 +146,27 @@ SELECT o.custid
   FROM Orders o
  GROUP BY o.custid;
 
+SELECT *
+  FROM Orders;
+
+-- 가격이 8천원 이상인 도서를 구매한 고객에 고객별 주문도서, 총 수량
+-- 조회하세요. 단 두 권 이상 고매한 고객만 조회합니다.
+ SELECT o.custid, count(*) "도서수량"
+   FROM  Orders o 
+  WHERE o.saleprice >= 8000
+  GROUP BY o.custid 
+ Having count(*) >= 2
+  ORDER BY o.custid DESC;
+
+-- 마당서점의 고객 요구하는 다음 질문에 대해 SQL문 작성
+SELECT *
+  FROM Book
+ WHERE bookid = '1';
+
+SELECT *
+  FROM Book
+ WHERE 
+
+
 SELECT DISTINCT custid, saleprice 
   FROM Orders;

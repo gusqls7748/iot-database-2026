@@ -10,3 +10,9 @@ SELECT b1.bookname
   FROM Book b1
  WHERE b1.price >= (SELECT max(b.price)
  					 FROM Book b);
+
+-- 가장 비싼 도시를 이름을 조회
+SELECT *
+  FROM book b
+ WHERE b.price >= (SELECT max(price)
+ 					 FROM Book);
