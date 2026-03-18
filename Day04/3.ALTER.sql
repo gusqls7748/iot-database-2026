@@ -30,3 +30,12 @@ MODIFY publisher varchar(40) NOT NULL;
 -- import_book
 ALTER TABLE NewBook 
   ADD PRIMARY KEY(bookid);
+
+-- DROP
+DROP TABLE OldBook;
+
+-- 관계형DB에서는 관계를 맺고있는 부모테이블 부터 삭제할 수 없음
+-- 항상 자식테이블부터 삭제 후 부모테이블 삭제할 수 있음
+DROP TABLE NewOrder;
+DROP TABLE NewBook;
+DROP TABLE NewCustomer;

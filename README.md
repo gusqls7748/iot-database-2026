@@ -468,15 +468,17 @@
 
 -- ALT + X  압축해제 된 데이터를 내컴퓨터에 푸는거
 
-https://github.com/datacharmer/test_db
-https://dev.mysql.com/doc/index-other.html?ref=dbwriter.io
-https://www.mysqltutorial.org/getting-started-with-mysql/mysql-sample-database/
+- 샘플DB
+    https://github.com/datacharmer/test_db
+    https://dev.mysql.com/doc/index-other.html?ref=dbwriter.io
+    https://www.mysqltutorial.org/getting-started-with-mysql/mysql-sample-database/
 
-- Sakila-db - MYSQL 버전충돌로 현재 사용 불가
-
+- Sakila-db - [쿼리](./ref/sakila-schema.sql)
+    Data - [쿼리](./ref/sakila-data.sql)
 ### DML 추가
 
-- INSERT INTO 대량 삽입 - MYSQL 방법
+
+- INSERT INTO 대량 삽입 - MYSQL 방법 - [쿼리](./Day04/1.INSERT추가.sql)
     
     ```sql
     INSERT INTO 테이블명 VALUES (컬럼1,컬럼2,... 컬럼n값),
@@ -488,6 +490,9 @@ https://www.mysqltutorial.org/getting-started-with-mysql/mysql-sample-database/
 
     ```
 
+- SELECT TOP 3
+    - 전체 조회 수중에서 조건에 맞는 데이터 3개만 조회
+
 ### DDL 계속
 
 #### 제약조건
@@ -498,7 +503,7 @@ https://www.mysqltutorial.org/getting-started-with-mysql/mysql-sample-database/
 
 #### CREATE 계속
 
-- CREATE 구문
+- CREATE 구문 - - [쿼리](./Day04/2.CREATE.sql)
     - primary key(컬럼1 또는 여러개)
     - FOREIGN KEY (custid) REFERENCES NewCustomer(custid) ON DELETE CASCADE,
         - REFERENCES : 참조하는 부모테이블과 PK칼럼
@@ -511,7 +516,7 @@ https://www.mysqltutorial.org/getting-started-with-mysql/mysql-sample-database/
 
 #### ALTER
 
-- ALTER 
+- ALTER - [쿼리](./Day04/3.ALTER.sql)
     - 객체 수정. 테이블 외에서는 많이 사용안됨
 
     ```sql
@@ -536,3 +541,45 @@ https://www.mysqltutorial.org/getting-started-with-mysql/mysql-sample-database/
     ```
 
 ### 내장함수
+
+- C, C++ 내장함수와 동일 - [쿼리](./Day04/4.내장함수.sql)
+
+### NULL과 NULL 관련 함수
+
+- 아직 지정되지 않은 값 - - [쿼리](./Day04/5.NULL.sql)
+- '0', '', ' '과 다름
+- C, C++의 '|0과 동일한 의미
+- 비교연산 불가(=, >, >=, !=) 대신 IS IS NOT만 사용가능
+- NULL값을 연산하면 결과도 NULL이 됨
+    - NULL + 숫자 => NULL
+    - 집계함수 계산 시 NULL 포함된 행은 집계에서 빠짐(!)
+
+### 쿼리연습
+
+- [쿼리](./Day04/7.Sakira_practice.sql)
+
+![Sakila_erd](./sakila_erd.png)
+
+### 뷰
+
+### 인덱스
+
+### 트랜잭션, 동시성제어
+
+TCL
+
+### 보안 및 관리
+
+#### 사용자
+
+- DDL 일부
+
+#### 권한
+
+- DCL
+
+### MYSQL 프로그래밍
+
+### C/C++ MYSQL연동
+
+### 데이터베이스 모델링
