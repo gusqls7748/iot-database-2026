@@ -564,77 +564,80 @@
 
 ### 쿼리연습
 
- - [쿼리](./Day05/1.Sakira_pratice.sql) 
+- [쿼리](./day05/1.Sakira_pratice.sql)
 
 ### 뷰
 
-- VIEW - [쿼리](./Day05/2.VIEW.sql)
+- VIEW - [쿼리](./day05/2.VIEW.sql)
     - 편리성과 재사용성 : 일반 테이블 사용하는 것처럼 사용하고, 여러번 사용가능
     - 보안성 : 개인정보와 같은 민감한 데이터의 공개를 막을 수 있음
-    - 독립성 : 일반 테이블처럼 사용, 사용자가 필요한 정보만 가공. 원본 테이블을 변경할 필요없음
+    - 독립성 : 일반 테이블처럼 사용, 사용자가 필요한 정보만 가공. 원본 테이블을 변경할 필요 없음
 
-- 뷰 특징 
+- 뷰 특정
     - 실제 데이터가 아님. 원본 데이터가 바뀌면 뷰 데이터도 갱신
     - 독립적인 인덱스 생성 어려움(속도개선 어려움)
     - 뷰이지만 데이터 INSERT, UPDATE 등이 가능
-    - INSERT, UPDATE, DELETE 거의 불가
+    - INSERT, UPDATE, DELETE는 거의 불가
     - 뷰는 보기 위해서 생성하므로 SELECT 이외 DML은 거의 사용하지 않음
 
-    ``` sql
+    ```sql
     -- 생성과 수정
     CREATE OR REPLACE VIEW 뷰이름 AS
     SELECT 구문;
-    
-     -- 삭제
-     DROP VIEW 이름;
-    
+
+    -- 삭제
+    DROP VIEW 뷰이름;
     ```
 
 ### 인덱스
 
-- INDEX [쿼리](./Day05/3.INDEX.sql)(찾아보기페이지 592p ~ 600p까지 )
-    - 책 뒤편 찾아보기, 인덱스와 동일한 역활
+- INDEX - [쿼리](./day05/3.INDEX.sql)
+    - 책 뒤편 찾아보기, 인덱스와 동일한 역할
     - 테이블에 하나이상 설정가능(인덱스를 건다라고 부름)
     - 인덱스가 없으면 `Full Table Scan`, 인덱스가 있으면 `Index Range Scan` 으로 변경
-    -내부적으로 B-Tree 자료구조 사용, $ 0(logN) $
+    - 내부적으로 B-Tree 자료구조 사용, $ O(logN) $
 
     ```sql
     -- 인덱스 생성
-    CREATE [UNIQUE] INDEX 인덱스명 ON 테이블명(컬럼명,...[ASC|DESC]);
+    CREATE [UNIQUE] INDEX 인덱스명 ON 테이블명(컬럼명, ... [ASC|DESC]);
 
     -- 인덱스 삭제
-    DROP INDEX 인덱스명
+    DROP INDEX 인덱스명 ON 테이블명;
     ```
+
 - 인덱스 종류
-    - 기본키 인덱스 : Primary키에 자동으로 걸리는 인덱스, 클러스트 인덱스
-    - UNIQUE 인덱스 : Unique 제약조건의 컬럼에 걸 수 있는 인덱스, NULL은 허용하는데 데이터 중복은 불가
-    - 일반 인덱스 : 중복 허용. 인덱스 효과가 미흡
-    - 복합 인덱스 : 두개이상의 컬럼을 하나의 인덱스로
+    - 기본키 인덱스 : Primary키에 자동으로 걸리는 인덱스. 클러스터 인덱스
+    - UNIQUE 인덱스 : Unique 제약조건의 컬럼에 걸수 있는 인덱스, NULL은 허용하는데 데이터 중복은 불가
+    - 일반 인덱스 : 중복허용. 인덱스 효과가 미흡
+    - 복합 인덱스 : 두개이상의 컬럼을 하나의 인덱스로 
 
 - 인덱스 구분
-    - 클러스터 인덱스 : 테이블당 하나만 생성. 데이터 자체가 정렬되는 것. 최초 PK나 PK가 없는 테이블에서는 첫번쨰 UNIQUE 인덱스
-    - 넌클러스터 인덱스 : 여러개 가능. 인덱스랑 데이터 따로 생성. 클러스터 인덱스 생성 후 모든 인덱스가 전부 넌클러스터 인덱스
+    - 클러스터 인덱스 : 테이블당 하나만 생성. 데이터 자체가 정렬되는 것. 최초 PK나 PK가 없는 테이블에서는 첫번째 UNIQUE 인덱스
+    - 넌클러스터 인덱스 : 여러개 가능. 인덱스가 데이터 따로 생성. 클러스터 인덱스 생성 후 모든 인덱스가 전부 넌클러스터 인덱스
 
 - `인덱스 주의사항`
-    - 인덱스를 생성한다고 무조건 속도가 빨라지는건 아니다. 제대로 걸어야함
-    - WHERE절에 자주 사용되는 컬럼에 인덱스를 걸어야함.(PK에 자동으로 인덱스 생성)
+    - 인덱스를 생성한다고 무조건 속도가 빨라지는 것은 아님. 제대로 걸어야 함
+    - WHERE절에 자주 사용되는 컬럼에 인덱스를 걸어야 함.(PK에 자동으로 인덱스 생성)
     - JOIN에 사용되는 FK에도 인덱스를 걸면 속도 개선
     - 단일 테이블에 인덱스를 너무 많이 걸면 반대로 속도가 느려짐(테이블당 4개정도 인덱스 권장)
     - 인덱스마다 ASC, DESC로 정렬해야하기 때문에 부가적인 처리가 많아짐
     - 자주 변경, 삭제되는 컬럼에 인덱스를 걸지 말것
     - 중복이 많이 되거나, NULL이 많은 컬럼은 인덱스효과 미비
 
-### SELECT문 자동 추가기능
+### SELECT문 추가 기능
 
 #### CTE
 
-- Common Table Expression : 공통으로 쓸수 있는 테이블 표현 기법 - [쿼리](./Day05/4.CTE.sql)
-    - 여러곳에서 공통으로 사용할 임시 테이블형태 쿼리
+- Common Table Expression : 공통으로 쓸 수 있는 테이블 표현기법 - [쿼리](./day05/4.CTE.sql)
+    - 여러곳에서 공통으소 사용할 임시 테이블형태 쿼리
     - 이름을 지정하는 임시 테이블
+    - 쿼리를 깔금하게 생성
+    - 쿼리 실행동안 재사용
+    - 가상데이터를 생성할때 
 
-    ```
-    WITH cte이름 AS(
-        SELECT...
+    ```sql
+    WITH cte이름 AS (
+        SELET ...
     )
     SELECT *
       FROM cte이름;
@@ -643,27 +646,213 @@
 
 ### 트랜잭션, 동시성제어
 
-TCL
+- TCL
+    - Transaction Control Language에 포함된 `START TRANSACTION`, `COMMIT`, `ROLLBACK`, `SAVEPOINT` 학습
+
+#### Transaction
+
+- `트랜잭션` 
+    - 일을 처리하는 논리적인 단위 그룹
+    - 여러 쿼리들이 실행되어 완성되는 하나의 논리 그룹처리 단위
+
+- 계좌이체 예시 - A가 B에게 100만원 보낸다
+    1. A의 계좌에서 100만원 차감
+    2. B의 계좌에 100만원 추가
+    3. 1번만 실행되고 2번이 실패하면, 돈이 사라짐(X)
+    4. 2번만 실행되고 1번이 실패하면, 돈이 복사됨(X)
+
+- 트랜잭션 4가지 특징 (`ACID`)
+    - 원자성(Atomicity) : 전부 성공 OR 전부 실패(All or Nothing), 중간상태 없음
+    - 일관성(Consistency) : 처리 전후로 데이터 규칙이 유지됨, 전체 합은 변경없음
+    - 격리성(Isolation) : 여러사람이 동시에 처리해도 서로 영향이 없음
+    - 지속성(Durability) : 성공한 처리는 절대 사라지지 않음
+
+#### DBeaver 툴 트랜잭션 설정
+
+- DBeaver 기본적으로 트랜잭션을 사용못하게 되어 있음 - Auto Commit설정 중
+
+    ![alt text](image-15.png)
+
+    - Manual Commit으로 변경 후 테스트
+
+- 환경 설정 > 연결 > 연결 유형 아래 `Auto-commit by default` 체크해제 -> 트랜잭션 사용모드
+
+    ![alt text](image-16.png)
+
+    - 단, Auto-Commit을 끄면 SQL에디터 마다 커밋, 롤백을 물어봄
+
+- 트랜잭션 모드 > Smart commit mode 체크
+
+    ![alt text](image-21.png)
+
+    - Smart commit mode가 활성화 안되면 단순 SELECT 쿼리만 실행해도 트랜잭션이 걸림
+    - 불편함을 없애기 위해서 Samrt commit mode를 활성화, 사용할 것
+
+#### 트랜잭션 쿼리
+
+- 기본 - [쿼리](./day06/1.TRANSACTION.sql)
+    ```sql
+    START TRANSACTION;  -- 1. 트랜잭션 로직에 진입
+
+    -- 여러가지 쿼리 실행
+
+    COMMIT; -- 2. 성공했으면 모두 저장!
+    ROLLBACK; -- 3. 실패했으면 원상복구.
+    ```
+ 
+- 세이브포인트 - [쿼리](./day06/2.SAVEPOINT.sql)
+    ```sql
+    -- 트랜잭션 중
+    SAVEPOINT sp명;
+
+    -- ...오류가 발생하면
+    ROLLBACK TO sp명;
+
+    COMMIT;
+    ```
+
+#### 동시성 제어
+
+- 개요 
+    - 여러 트랜잭션이나 프로세스가 동시에 실행될때 데이터의 일관성을 유지하면서 처리하는 것
+    - Lock, Isolation Level, MVCC 등 동시정 제어 기법 사용
+
+    ![alt text](image-19.png)
+
+    ![alt text](image-20.png)
+
+- 행 단위 락(Row Lock) - 일반적인 락 -[쿼리1](./day06/3.동시성제어_세션1.sql), [쿼리2](./day06/4.동시성제어_세션2.sql)
+    - 세션 1번이 특정 테이블의 데이터를 UPDATE나 DELETE시 트랜잭션을 종료하지 않으면
+    - 세션 2번이 같은 테이블의 데이터를 UPDATE나 DELETE 할 수 없음
+
+    - 락 걸린 상태
+    ![alt text](image-17.png)
+
+    - 50초 후 락 상태 해제
+    ![alt text](image-18.png)
+
+    - 서로 다른 행 데이터를 편집할 때는 락이 걸리지 않음
+
+- 테이블 락(Table Lock)
+    - 테이블 전체를 락, 행 락과 달리 COMMIT, ROLLBACK을 처리할 수 없음
+    - 언락으로 테이블 락을 해제해야 함
+    - 데드락 5분 가량 지속
+
+- `격리수준` - 동시 여러 트랜잭션이 실행될때 서로의 데이터에 얼마나 영향을 줄지 제어하는 기준
+    - 최하 - Read Uncommitted. 커밋되지 않은 데이터 읽을 수 있음(사용 안 함)
+    - 중간 - Read Committed. 커밋된 데이터만 읽음
+    - 기본 - `Repeatable Read`. MySQL기본값. 같은 트랜잭션 안에서는 항상 같은 결과
+    - 최고 - Serializable. 순차적 실행. 동시성 거의 없음. 안전하지만 성능 최악
+
+- 동시성 제어 문제 
+    - Dirty Read - 다른 트랜잭션이 아직 커밋하지 않은 데이터를 읽는 현상 
+    - Non-repeatable Read - 같은 트랙잰션 안에서 같은 데이터를 두번 읽었을때 결과가 다른 현상
+    - Phantom Read - 같은 조건으로 두 번 조회시 행 개수가 달라지는 현상
+
+- 격리수준과 동시성 제어 정리
+
+    |격리수준|Dirty Read|Non-Repeatable Read|Phantom Read|
+    |:--|:--:|:--:|:--:|
+    |Read Uncomitted|가능|가능|가능|
+    |Read Committed|방지|가능|가능|
+    |`Repeatable Read`|방지|방지|일부 방지|
+    |Serializable|방지|방지|방지|
+
+- 데드락
+    - MySQL은 데드락이 오래 걸리지 않도록 50초 후 데드락을 풀어버림
+    - 트랜잭션이 종료된 것은 아니므로 다른 세션에서 COMMIT, ROLLBACK을 수행해야 함
+    - 트랜잭션을 짧게 유지할 것
+    - 테이블 락은 사용 최소화
+
+- 트랙잭션 확인 쿼리(관리자용)
+    ```sql
+    SELECT * FROM information_schema.INNODB_TRX it;    
+    ```
 
 ### 보안 및 관리
 
 #### 사용자
 
-- DDL 일부
+- 사용자 생성 및 삭제 - [쿼리](./day06/5.USER_GRANT.sql)
+    - 데이터베이스를 사용할 계정을 생성 쿼리, DDL
+    - @이후 'localhost' 내부접속용, '%' 외부접속용
+
+    ```sql
+    -- 사용자 생성
+    CREATE USER '사용자명'@'localhost|%' IDENTIFIED BY '비밀번호';
+
+    -- 사용자 비밀번호변경
+    ALTER USER '사용자명'@'localhost|%' IDENTIFIED BY '비밀번호';
+
+    -- 사용자 삭제
+    DROP USER '사용자명';
+    ```
 
 #### 권한
 
-- DCL
+- 사용자에게 권한 부여 및 해제, DCL
+    - 대부분 관리자가 수행
+    - GRANT, REVOKE    
 
-### MYSQL 프로그래밍
+    ```sql
+    -- 권한 부여
+    GRANT ALL PRIVILEGES ON 데이터베이스.* TO '사용자명'@'localhost|%';
 
-#### 프로시저
+    -- 특정권한 부여
+    GRANT SELECT, INSERT, UPDATE ON 테이터베이스.객체명 TO '사용자명'@'localhost|%';
 
-#### 함수
+    -- 권한 해제
+    REVOKE ALL PRIVILEGES ON 테이터베이스.* FROM '사용자명'@'localhost|%';
+    ```
 
-### C/C++ MYSQL연동
+#### MySQL 백업 복구
+- dump, resore
+    - *.sql 파일로 내보내기 - [쿼리](./day06/dump-madangdb-202603201615.sql)
 
-#### MYSQL Connect C/C++ 라이브러리
+    ![alt text](image-22.png)
+
+
+### MySQL 프로그래밍
+
+#### 데이터베이스 프로그래밍
+
+- 각 DB마다 프로그래밍 언어가 상이
+    - Oracle : `PL/SQL`
+    - SQL Server : T-SQL
+    - MySQL : MySQL Programming
+
+- 일반 프로그래밍 언어와 차이점 존재
+    - DB 전용 프로그램 개발    
+
+- DBeaver에서는 SQL 에디터로 프로시저, 함수 등이 잘 생성되지 않음
+    - DBeaver에 있는 전용 생성 위저드로 진행!
+ 
+- 개념
+    - 일반적인 프로그래밍과 유사
+    - 변수, 연산자, 조건문, 반복문 모두 존재
+
+- MySQL의 경우 함수 안정성 체크옵션으로 생성 불가 발생
+    - 관리자에서 실행
+
+    ```sql
+    -- 함수 안정성 체크 안함
+    SET GLOBAL log_bin_trust_function_creators = 1;
+    ```
+
+#### 사용자 정의 함수
+
+- 함수 - [쿼리1](./day06/6.FUNCTION_원형.sql), [쿼리2](./day06/6.FUNCTION.sql)
+    - 내장함수에 없는 기능의 함수를 추가로 개발하는 것
+    - 함수 파라미터, 리턴값이 존재
+
+
+#### 저장 프로시저
+
+#### 트리거
+
+### C/C++ MySQL연동
+
+#### MySQL Connect C/C++ 라이브러리
 
 ### 데이터베이스 모델링
 
