@@ -671,19 +671,19 @@
 
 - DBeaver 기본적으로 트랜잭션을 사용못하게 되어 있음 - Auto Commit설정 중
 
-    ![alt text](image-15.png)
+    ![alt text](image-16.png)
 
     - Manual Commit으로 변경 후 테스트
 
 - 환경 설정 > 연결 > 연결 유형 아래 `Auto-commit by default` 체크해제 -> 트랜잭션 사용모드
 
-    ![alt text](image-16.png)
+    ![alt text](image-17.png)
 
     - 단, Auto-Commit을 끄면 SQL에디터 마다 커밋, 롤백을 물어봄
 
 - 트랜잭션 모드 > Smart commit mode 체크
 
-    ![alt text](image-21.png)
+    ![alt text](image-22.png)
 
     - Smart commit mode가 활성화 안되면 단순 SELECT 쿼리만 실행해도 트랜잭션이 걸림
     - 불편함을 없애기 위해서 Samrt commit mode를 활성화, 사용할 것
@@ -717,19 +717,19 @@
     - 여러 트랜잭션이나 프로세스가 동시에 실행될때 데이터의 일관성을 유지하면서 처리하는 것
     - Lock, Isolation Level, MVCC 등 동시정 제어 기법 사용
 
-    ![alt text](image-19.png)
-
     ![alt text](image-20.png)
+
+    ![alt text](image-21.png)
 
 - 행 단위 락(Row Lock) - 일반적인 락 -[쿼리1](./day06/3.동시성제어_세션1.sql), [쿼리2](./day06/4.동시성제어_세션2.sql)
     - 세션 1번이 특정 테이블의 데이터를 UPDATE나 DELETE시 트랜잭션을 종료하지 않으면
     - 세션 2번이 같은 테이블의 데이터를 UPDATE나 DELETE 할 수 없음
 
     - 락 걸린 상태
-    ![alt text](image-17.png)
+    ![alt text](image-18.png)
 
     - 50초 후 락 상태 해제
-    ![alt text](image-18.png)
+    ![alt text](image-19.png)
 
     - 서로 다른 행 데이터를 편집할 때는 락이 걸리지 않음
 
@@ -809,7 +809,7 @@
 - dump, resore
     - *.sql 파일로 내보내기 - [쿼리](./day06/dump-madangdb-202603201615.sql)
 
-    ![alt text](image-22.png)
+    ![alt text](image-23.png)
 
 
 ### MySQL 프로그래밍
