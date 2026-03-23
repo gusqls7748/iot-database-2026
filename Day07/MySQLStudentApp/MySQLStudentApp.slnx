@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="MySQLStudentApp.vcxproj" Id="7313e231-eba5-42b9-a459-c39e7721d0c2" />
+</Solution>

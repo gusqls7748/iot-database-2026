@@ -1,7 +1,7 @@
 
 -- root 관리자로 실행
 -- 함수 안정성 체크 안함
-SET GLOBAL log_bin_trust_function_creators = 1;
+SET GLOBAL log_bin_trust_function_creators = 1; -- on
 
 -- 함수 사용, 스칼라 값
 SELECT o.custid

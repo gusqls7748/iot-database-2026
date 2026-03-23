@@ -7,7 +7,7 @@
 
 - `데이터` Data : 단순한 수치가 값
 - `정보` Information : 데이터의 의미를 부여한 것
-- 지식 Knowlege : 정보를 통한 사물이나 현상에 대한 이해
+- 지식 Knowledge : 정보를 통한 사물이나 현상에 대한 이해
 
 ### 데이터베이스 DataBase
 
@@ -230,7 +230,7 @@
     SELECT *|열이름 나열
       FROM 테이블명
      WHERE 조건...
-     ORDER BY 열1, 열2 ASC|DESC;
+     ORDER BY 컴럼1, 컬럼2 ASC|DESC;
     ```
 
 ## 2일차
@@ -414,8 +414,7 @@
 - 8장에서 다룰 예정
 
 ### DDL
-
-- 객체 생성하고 수정, 삭제하는 기능을 하는 SQL 언어
+    - 객체 생성하고 수정, 삭제하는 기능을 하는 SQL 언어
 
 #### MySQL 데이터타입
 - `BOOL` - true/false
@@ -844,18 +843,146 @@
 - 함수 - [쿼리1](./day06/6.FUNCTION_원형.sql), [쿼리2](./day06/6.FUNCTION.sql)
     - 내장함수에 없는 기능의 함수를 추가로 개발하는 것
     - 함수 파라미터, 리턴값이 존재
+    - 일반 쿼리문에 포함가능
 
+- 생성
+    - DBeaver 해당 DB Procedure 폴더에서 마우스 오른쪽 > Create New PRocedure
+    - Name, 필요한 함수명 입력
+    - Type FUNCTION 선택
+
+    ![alt text](image-24.png)
+
+    - 작성후 SAVE 클릭(Execute)
+
+## 7일차
+
+### MySQL 프로그래밍
 
 #### 저장 프로시저
 
+- 저장 프로시저 - [쿼리](./Day07/1.PROCEDURE_실행.sql), [쿼리](./Day07/1.PROCEDURE_원본.sql)
+    - 함수와 달리 리턴값이 없음, OUT 파라미터로 결과를 돌려받을 수 있음(리턴과 유사)
+    - 일반 쿼리문에 포함불가
+    - 단독 실행 또는 배치(스케줄에 따라) 실행
+    - 사용자 없는 새벽에 `대량처리` 수행할 떄
+
+- - 생성
+    - DBeaver 해당 DB Procedure 폴더에서 마우스 오른쪽 > Create New PRocedure
+    - Name, 필요한 함수명 입력
+    - Type FUNCTION 선택
+     - 작성후 SAVE 클릭(Execute)
+
+#### 커서
+
+- Curosr - 저장 프로시줘 쿼리 참고
+    - 마우스 커서와 동일하게 테이블의 한 위치를 가리키는 객체
+    - 테이블의 데이터를 한 행씩 처리하기위해서 사용
+    - CURSOR, OPEN< FETCH, CLOSE
+    - 일반 프로그래밍 언어와 연동시 사용
+
 #### 트리거
+
+- Trigger - [쿼리](./Day07/2.TRIGGER.sql), [쿼리](./Day07/2.TRIGGER.원형.sql)
+    - 방아쇠를 뜻함. 하나의 테이블에서 INSERT, UPDATE, DELETE 문이 실행되면 다른 테이블이나 다른처리가 자동으로 실행되는 저장 프로그램 중 하나
+    - Before Trigger보다 After Trigger가 많이 사용
+    - 시스템 로그 기능에 많이 사용됨
+
+    ![alt text](image-25.png)
+
+### 데이터베이스 모델링
+
+
+#### 모델링
+
+- 게요
+    - 현실세계에 존재하는 시스템을 컴퓨터 시스템으로 변환하기 위해서 디자인
+    - 현실세계의 데이터를 DB상에 입력해서 프로그램에서 사용할 수 있도록 설계하는 것
+    - 현실세계 데이터와 DB상의 데이터가 일치
+    - 예. 오프라인 매장 -> 온라인 매장, 시립 도서관, 백화점 -> 모바일 백화점 
+
+- 데이터베이스 생성주기
+    - `요구사항 수집 및 분석` > `설계` > `구현` > 운영 > 감시 및 개선
+
+- SW 생명주기
+    - DB 생명주기 설계와 구현이 SW생명주기 설계에 속함
+    - `요구사항 수집 및 분석` > `설계` > 구현 > 테스트 > 배포 > 유지보수/관리
+
+- DB 설계의 순서
+    1. 개념 모델링 : 요구사항에 따른 개념적인 모델링으로, 추상적인 도형으로 관계 구성
+        - 전체적인 뼈대를 만드는 과정
+        - 각 테이블이 될 `엔티티` 추출
+        - 테이블의 컬럼이 될 속성 추출
+        - 속성 구분자가 될 키 추출
+    2. `논리 모델링` ㅣ 개념 모델링 바탕으로 속성, 키, 관계 명확히 정의
+        - 개념 모델링에서 나오지 않았던 상세 속성들 추출, PK, FK...
+        - 데이터 중복을 최소화하는 `정규화` 수행
+        - 관계형 데이터모델 테이블화, 구체화
+    3. `물리 모델링`
+        - 실제 DB 종류(Oracle, `MySQL`, SQL Server)를 고려해서 설계
+        - 테이블, 컬럼, 인덱스, 제약조건, 뷰, 등 객체및 PK, FK, NULL 등 제약조건 생성 
+        - 성능을 위해 정규화된 내용을 다시 `반정규화` 진행
+        - 최종 스키마 완성
+        - 데이터베이스화, (내보내기 기능)
+    
+    ## 8일차
+
+    ### 데이터베이스 모델링
+
+    #### ERD
+
+    - Entity Relationship Diagram
+
 
 ### C/C++ MySQL연동
 
+- 개발방법
+    - MySQL 8.0 이상
+    - MySQL Connector/C++ 라이브러리 설치
+    - Visual Studio 프로젝트 생성
+    - C++ 코드 작성
+
 #### MySQL Connect C/C++ 라이브러리
 
-### 데이터베이스 모델링
+- https://dev.mysql.com/downloads/connector/cpp/
+    - Windows (x86, 64-bit), MSI Installer 다운로드
+    - C:\Program Files\MySQL\MySQL Connector C++ 9.6\ 에 설치됨
+
+시스템속성 (system.cpl)
+    - 고급 > 환경 변수 > path 에 MYSQL관련 dll이 위치하는 경로 추가
+    - vs나 콘솔 재시작
+
+#### Visual Studio 프로젝트 속성
+
+- 프로젝트 속성
+    - C/C++ > 일반 > 추가 포함 디렉토리
+        - C:\Program Files\MySQL\MySQL Connector C++ 9.6\include 추가
+    - 링커 > 일반 > 추가 라이브러리 디렉토리
+        - C:\Program Files\MySQL\MySQL Connector C++ 9.6\lib64\vs14 추가
+    - 링커 > 입력 > 추가 종속성
+        - mysqlcppconnx-static.lib
+
+
+
+#### 텔넷 클라이언트 설정
+
+- 시작 > appwiz.cpl 실행
+    - windows 기능 켜기/ 크기 클릭
+    - Telnet Client 체크 활성화
+    - powershell이나 콘솔
+
+    ![alt text](image-26.png)
+
+
+    
 
 #### ERD 작성
 
 - 정규화, 반정규화, 개념/논리/물리다이어그램
+
+### 언어
+C, C++, PYthon, SQL, C#, `JavaScript, HTML, CSS`, RaspPi, Arduino, IOT, 통신,....
+
+### 
+![alt text](image-000.png)
+
+` 테이블 == 엔티티`
