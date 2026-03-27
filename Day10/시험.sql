@@ -83,3 +83,37 @@ HAVING COUNT(r.rental_idx) > (SELECT AVG(t.cnt)
         					  		  SELECT COUNT(*) AS cnt 
           							  	FROM rentals 
          							   GROUP BY member_idx) AS t);
+
+-- 6번
+SELECT *  FROM members m ;
+SELECT *  FROM books b;
+SELECT * FROM rentals r ;
+SELECT * FROM division d;
+
+-- 1. 평균보다 비싼 책들만 먼저 뽑습니다 (WHERE 절 사용)
+SELECT d.div_name  AS 장르명
+     , COUNT(*) AS 비싼책권수
+  FROM books b
+  JOIN division d ON b.div_code = d.div_code
+ WHERE b.price > (SELECT AVG(price) FROM books) 
+ GROUP BY d.div_name
+ ORDER BY 비싼책권수 DESC
+ LIMIT 3;
+	(SELECT AVG(price) FROM  books b);
+
+-- 제 2: 열혈 독자 목록 (HAVING 숙달)
+-- "한 번이라도 대여를 한 회원들의 '평균 대여 횟수'보다 더 많이 대여한 회원들의 이름과 대여 횟수를 조회하세요." (5번 문제의 복습입니다!)
+SELECT m.member_name 
+	 , m.member_idx  
+  FROM members m 
+  JOIN rentals r ON m.member_idx = r.member_idx 
+ GROUP BY m.member_name, m.member_idx 
+HAVING count(m.member_idx) >  (SELECT avg(t.cnt) 
+  FROM (SELECT count(*) AS cnt 
+  FROM rentals 
+  GROUP BY member_idx)AS t) ;
+
+
+      							
+;
+
