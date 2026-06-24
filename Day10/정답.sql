@@ -54,3 +54,5 @@ HAVING count(*) >= (
 					         GROUP BY r.member_idx
 					       ) t
 					);
+
+
